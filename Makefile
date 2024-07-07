@@ -1,7 +1,7 @@
 CC = gcc
 PROG = logfile
 
-logfile.o: logfile.c
+$(PROG).o: $(PROG).c
 	$(CC) -c $(PROG).c
 
 test_logfile: test_logfile.c $(PROG).o
