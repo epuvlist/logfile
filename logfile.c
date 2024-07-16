@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>  // for EXIT_SUCCESS and EXIT_FAILURE
 #include "logfile.h" // can use <logfile.h> when production code moved to /usr/local/include
 
 // Support for text log file
@@ -29,11 +30,11 @@ int update_log(const char *log_file_name, const char *new_entry, const int limit
         log_file = fopen(log_file_name, "w");
         if(log_file == NULL)
             // Error opening the file, return error
-            return 1;
+            return EXIT_FAILURE;
         // Write the sole new entry and close
         fprintf(log_file, "%s\n", new_entry);
         fclose(log_file);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     // Count the lines in the file
@@ -49,11 +50,11 @@ int update_log(const char *log_file_name, const char *new_entry, const int limit
         log_file = fopen(log_file_name, "a");
         if(log_file == NULL) {
             print_err();
-            return 1;
+            return EXIT_FAILURE;
         }
         fprintf(log_file, "%s\n", new_entry);
         fclose(log_file);
-        return 0;
+        return EXIT_SUCCESS;
     }
     else {
         // Truncate to the required limit by removing earlier lines
@@ -82,13 +83,13 @@ int update_log(const char *log_file_name, const char *new_entry, const int limit
         // Copy swap file to log file
         if(remove(log_file_name) != 0) {
             print_err();
-            return 1;
+            return EXIT_FAILURE;
         } else if(rename(swap_file_name, log_file_name) != 0) {
             print_err();
-            return 1;
+            return EXIT_FAILURE;
         }
 
         // Successful file operations
-        return 0;
+        return EXIT_SUCCESS;
     }
 }
