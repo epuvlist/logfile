@@ -2,13 +2,16 @@ CC = gcc
 PROG = logfile
 OPTS = -Wall
 
-all: $(PROG).o test_logfile
+all: $(PROG).a test_logfile
+
+$(PROG).a: $(PROG).o
+	ar rcs $(PROG).a $(PROG).o
 
 $(PROG).o: $(PROG).c
 	$(CC) $(OPTS) -c $(PROG).c -o$(PROG).o
 
-test_logfile: test_logfile.c $(PROG).o
-	$(CC) $(OPTS) test_logfile.c logfile.o -otest_logfile
+test_logfile: test_logfile.c $(PROG).a
+	$(CC) $(OPTS) test_logfile.c -l$(PROG) -otest_logfile
 
 clean:
-	rm test_logfile *.o
+	rm test_logfile *.o $(PROG).a
