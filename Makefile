@@ -11,6 +11,7 @@ $(PROG).o: $(PROG).c
 	$(CC) $(OPTS) -c $(PROG).c -o$(PROG).o
 
 test_logfile: test_logfile.c $(PROG).a
+    # Do not specify the .a library suffix, the compiler doesn't require it
 	$(CC) $(OPTS) test_logfile.c -l$(PROG) -otest_logfile
 
 clean:
